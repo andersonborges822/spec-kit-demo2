@@ -1,0 +1,21 @@
+name: Sentiment Analyzer
+description: Sistema de IA que analisa sentimentos em textos em português.
+
+steps:
+  - id: prepare-data
+    run: python scripts/prepare_data.py --input data/raw --output data/processed
+    verify: python scripts/verify_data.py data/processed
+
+  - id: train-model
+    run: python scripts/train.py --data data/processed --out models/sentiment.pkl
+
+  - id: test-model
+    run: pytest tests/test_model.py
+
+generate:
+  - scripts/prepare_data.py: |
+      Gere um script Python que leia um arquivo CSV com textos e normalize os dados.
+  - scripts/train.py: |
+      Crie um modelo de análise de sentimento em português usando scikit-learn.
+  - tests/test_model.py: |
+      Crie testes unitários para validar o modelo.
